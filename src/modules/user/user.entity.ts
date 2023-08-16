@@ -1,15 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity({ name: 'user' })
 export class UserEntity {
     @PrimaryGeneratedColumn()
-    id: number
+      id: number
 
     @Column()
-    name: string
+      name: string
 
-  constructor(userEntity: Partial<UserEntity>) {
-    this.id = userEntity?.id;
-    this.name = userEntity?.name;
-  }
+    constructor(userEntity: Partial<UserEntity>) {
+      this.id = userEntity?.id
+      this.name = userEntity?.name
+    }
 }

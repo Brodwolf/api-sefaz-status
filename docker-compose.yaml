@@ -1,22 +1,21 @@
 version: '3.9'
 services:
-  postgres:
-    image: postgres:13.2
-    deploy:
-      resources:
-        limits:
-          memory: 256M
-        reservations:
-          memory: 256M
-    restart: unless-stopped
-    ports:
-      - 5432:5432
+  backend:
+    build:
+      context: .
+      # target: dev
+    container_name: sefaz-api-notification
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - .:/home/node/app
+      - backend_node_modules:/home/node/app/node_modules
+    ports:
+      - 3000:3000
+      - 9229:9229
     environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydatabase
-    container_name: postgres-db
+      - APP_PORT=3000
+      - APP_SECRET=DUAIUSDHAUIWD
+    entrypoint: npm run start:dev
 
 volumes:
   postgres_data:
+  backend_node_modules:

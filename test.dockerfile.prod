@@ -1,0 +1,32 @@
+FROM amazonlinux:2 as base
+WORKDIR /home/node/app
+RUN yum install -y gcc-c++ make procps
+RUN curl -sL https://rpm.nodesource.com/setup_14.x | bash
+RUN yum install -y nodejs
+RUN yum install -y optipng zlib-dev g++
+RUN npm install -g npm@8.7.0 @nestjs/cli
+
+FROM base as dev
+COPY package.json .
+COPY package-lock.json .
+ENV NODE_ENV=development
+RUN npm install
+
+FROM base as build
+COPY package.json .
+COPY package-lock.json .
+COPY . .
+ENV NODE_ENV=development
+RUN npm ci
+RUN npm run build
+
+FROM base as prod
+ENV NODE_ENV=production
+LABEL project_name=api-sefaz-status-notification
+COPY --from=build /home/node/app/node_modules ./node_modules
+COPY --from=build /home/node/app/dist ./dist
+COPY --from=build /home/node/app/package.json .
+COPY --from=build /home/node/app/package-lock.json .
+COPY build.info ./dist/build.info
+EXPOSE 3000
+CMD npm run start:prod

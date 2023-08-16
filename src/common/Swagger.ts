@@ -1,5 +1,5 @@
-import { INestApplication } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { INestApplication } from '@nestjs/common'
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
 export class Swagger {
   /**
@@ -10,10 +10,10 @@ export class Swagger {
       .setTitle('Nest Starter')
       .setDescription('Test Documentation')
       .addBearerAuth()
-      .build();
+      .build()
     const document = SwaggerModule.createDocument(app, config, {
       operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,
-    });
-    SwaggerModule.setup('doc', app, document);
+    })
+    SwaggerModule.setup('docs', app, document)
   }
 }
