@@ -6,11 +6,7 @@ export class Swagger {
    * @param {INestApplication} app
    */
   public static forApp(app: INestApplication) {
-    const config = new DocumentBuilder()
-      .setTitle('Nest Starter')
-      .setDescription('Test Documentation')
-      .addBearerAuth()
-      .build()
+    const config = new DocumentBuilder().setTitle('Nest Starter').setDescription('Test Documentation').addBearerAuth().build()
     const document = SwaggerModule.createDocument(app, config, {
       operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,
     })

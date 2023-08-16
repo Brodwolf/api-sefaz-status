@@ -1,14 +1,13 @@
-import { NestFactory } from '@nestjs/core'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config()
 import { Swagger } from './common/Swagger'
+import { NestFactory } from '@nestjs/core'
+import { APP_PORT, IS_DEV } from './settings'
 import { AppModule } from './modules/AppModule'
-import { LogHandler } from './common/logger/LogHandler'
-import { HttpExceptionFilter } from './common/HttpExceptionFilter'
 import { HttpStatus, ValidationPipe } from '@nestjs/common'
-
-const IS_DEV = true
+import { HttpExceptionFilter } from './common/HttpExceptionFilter'
 
 async function bootstrap() {
-  const logger = new LogHandler()
   const app = await NestFactory.create(AppModule)
   app.enableCors()
   app.useGlobalFilters(new HttpExceptionFilter())
@@ -22,6 +21,6 @@ async function bootstrap() {
   )
 
   IS_DEV && Swagger.forApp(app)
-  await app.listen(3000, () => logger.info(`App is Up and running: ${3000}`))
+  await app.listen(APP_PORT, () => console.log(`App is up and running on port ${APP_PORT}`))
 }
 bootstrap()

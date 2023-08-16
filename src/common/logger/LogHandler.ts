@@ -16,17 +16,13 @@ export class LogHandler {
         winston.format.timestamp(),
         winston.format.metadata(),
         winston.format.printf(({ level, message, ...opts }) => {
-          const metadata = (
-            (opts.metadata?.context as Record<string, any>) || []
-          ).reduce(
+          const metadata = ((opts.metadata?.context as Record<string, any>) || []).reduce(
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             (acc, { key, val }) => `${acc} ${key}="${val}"`,
             '',
           )
-          return `datetime="${
-            opts.metadata.timestamp
-          }" level="${level.toUpperCase()}" ${metadata} message="${message}"`
+          return `datetime="${opts.metadata.timestamp}" level="${level.toUpperCase()}" ${metadata} message="${message}"`
         }),
       ),
     })
@@ -43,7 +39,7 @@ export class LogHandler {
     if (!this.context?.length) {
       this.context = []
     }
-    const index = this.context.findIndex((value) => value.key === key)
+    const index = this.context.findIndex(value => value.key === key)
     if (index !== -1) {
       this.context[index].val = val
     } else {
@@ -74,7 +70,7 @@ export class LogHandler {
    */
   public static exception(error: Error): void {
     const logger = new LogHandler()
-    const stack = (<Error>error).stack.split('\n').map((s) => s.trim())
+    const stack = (<Error>error).stack.split('\n').map(s => s.trim())
     if (stack) {
       logger.addContext('stack', addslashes(JSON.stringify(stack)))
     }

@@ -33,7 +33,7 @@ export const APP_ROOT_DIR = path.resolve(__dirname)
  *
  * Variable used for define the ambient is development
  */
-export const IS_DEV = <string>process.env.NODE_ENV === 'development'
+export const IS_DEV = <string>process.env.IS_DEV
 /**
  * APP_SECRET
  *
